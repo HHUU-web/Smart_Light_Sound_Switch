@@ -2,23 +2,23 @@
 #include "adc.h"
 #include "stdio.h"
 #include "oled.h"
-uint16_t ADC_Sample = 0,ADC_Volt = 0;//ADC_ValueÎª²ÉÑùÖµ£¬ADC_VoltÎªµçÑ¹Öµ
-uint8_t str[64];//¸ø¶¨Ò»¸öÊý×é¿Õ¼ä£¬´æ·ÅsprintfµÄÄÚÈÝ
+uint16_t ADC_Sample = 0,ADC_Volt = 0;//ADC_ValueÎªï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ADC_VoltÎªï¿½ï¿½Ñ¹Öµ
+uint8_t str[64];//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ä£¬ï¿½ï¿½ï¿½sprintfï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern u8g2_t u8g2;
 
 void Get_ADC_Sample()
 {
-	HAL_ADC_Start(&hadc1);//´ò¿ªADC×ª»»
+	HAL_ADC_Start(&hadc1);//ï¿½ï¿½ADC×ªï¿½ï¿½
 	if(HAL_ADC_PollForConversion(&hadc1,10) == HAL_OK)
 	{
-		ADC_Sample = HAL_ADC_GetValue(&hadc1);//½«µÃµ½µÄADC²ÉÑùÖµ·ÅÈë±äÁ¿ADC_SampleÖÐ
-		ADC_Volt = ADC_Sample * 330/4096;//Êý¾Ý×ª»»£¬µçÑ¹Îª3.3V£¬Êý¾ÝÊ±12Î»£¬±£ÁôÁ½Î»Ð¡Êý
+		ADC_Sample = HAL_ADC_GetValue(&hadc1);//ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ADCï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ADC_Sampleï¿½ï¿½
+		ADC_Volt = ADC_Sample * 330/4096;//ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹Îª3.3Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±12Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»Ð¡ï¿½ï¿½
 	}
 	u8g2_ClearBuffer(&u8g2);
 	u8g2_SetFont(&u8g2, u8g2_font_courB10_tr);
-    const char *done = "light£º";
+    const char *done = "lightï¿½ï¿½";
     u8g2_DrawStr(&u8g2, (128 - u8g2_GetStrWidth(&u8g2, done)) / 2, 32, done);
     u8g2_SendBuffer(&u8g2);
 
-	HAL_ADC_Stop(&hadc1);//Í£Ö¹ADC×ª»»
+	HAL_ADC_Stop(&hadc1);//Í£Ö¹ADC×ªï¿½ï¿½
 }
