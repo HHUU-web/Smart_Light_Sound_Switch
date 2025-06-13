@@ -1,6 +1,5 @@
-smart_light_sound_switch\u8x8_debounce.o: ..\u8g2\u8x8_debounce.c
-smart_light_sound_switch\u8x8_debounce.o: ..\u8g2\u8x8.h
-smart_light_sound_switch\u8x8_debounce.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
-smart_light_sound_switch\u8x8_debounce.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stdarg.h
-smart_light_sound_switch\u8x8_debounce.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-smart_light_sound_switch\u8x8_debounce.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\limits.h
+smart_light_sound_switch/u8x8_debounce.o: ..\u8g2\u8x8_debounce.c \
+  ..\u8g2\u8x8.h D:\Keil5MDK\ARM\ARMCLANG\include\stdint.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\stdarg.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\stddef.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\limits.h

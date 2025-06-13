@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-void Get_ADC_Sample();
+void Get_light();
 
 
 #endif

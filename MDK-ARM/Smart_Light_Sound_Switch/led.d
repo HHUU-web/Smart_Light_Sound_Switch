@@ -1,35 +1,34 @@
-smart_light_sound_switch\led.o: ..\code\led.c
-smart_light_sound_switch\led.o: ..\code\led.h
-smart_light_sound_switch\led.o: ../Core/Inc/main.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
-smart_light_sound_switch\led.o: ../Core/Inc/stm32f1xx_hal_conf.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
-smart_light_sound_switch\led.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
-smart_light_sound_switch\led.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
-smart_light_sound_switch\led.o: ../Drivers/CMSIS/Include/core_cm3.h
-smart_light_sound_switch\led.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
-smart_light_sound_switch\led.o: ../Drivers/CMSIS/Include/cmsis_version.h
-smart_light_sound_switch\led.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
-smart_light_sound_switch\led.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
-smart_light_sound_switch\led.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-smart_light_sound_switch\led.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
-smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-smart_light_sound_switch\led.o: ../Core/Inc/tim.h
+smart_light_sound_switch/led.o: ..\code\led.c ..\code\led.h \
+  ..\Core\Inc\main.h ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h \
+  ..\Core\Inc\stm32f1xx_hal_conf.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_rcc.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_def.h \
+  ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f1xx.h \
+  ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
+  ..\Drivers\CMSIS\Include\core_cm3.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\stdint.h \
+  D:\1PROJECT\light_sound_course_project2\Smart_Light_Sound_Switch\Drivers\CMSIS\Include\cmsis_version.h \
+  D:\1PROJECT\light_sound_course_project2\Smart_Light_Sound_Switch\Drivers\CMSIS\Include\cmsis_compiler.h \
+  D:\1PROJECT\light_sound_course_project2\Smart_Light_Sound_Switch\Drivers\CMSIS\Include\cmsis_armclang.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\arm_compat.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\arm_acle.h \
+  ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\stddef.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_rcc_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_gpio.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_gpio_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_exti.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_dma.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_dma_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_cortex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_adc.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_adc_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_flash.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_flash_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_i2c.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pwr.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
+  ..\Core\Inc\tim.h

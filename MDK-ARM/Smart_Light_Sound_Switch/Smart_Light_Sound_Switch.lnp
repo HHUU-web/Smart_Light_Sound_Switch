@@ -72,6 +72,6 @@
 "smart_light_sound_switch\u8x8_u8toa.o"
 "smart_light_sound_switch\u8x8_u16toa.o"
 --library_type=microlib --strict --scatter "Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "Smart_Light_Sound_Switch.map" -o Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.axf

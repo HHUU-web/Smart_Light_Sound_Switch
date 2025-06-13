@@ -8,7 +8,7 @@ void led_duty()
 	__HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_1,led_pwm);
 }
 
-void led_fun()
+void led_fun()//µ∆≈›‘À––
 {
 	while (led_pwm< 500)
 	{

@@ -30,6 +30,7 @@
 #include "led.h"
 #include "oled.h"
 #include "light.h"
+#include "sound.h"
 
 /* USER CODE END Includes */
 
@@ -97,6 +98,7 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
   
   HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
@@ -113,9 +115,9 @@ int main(void)
   while (1)
   {
 	  
-	  led_fun();
-	  Get_ADC_Sample();
-	// 显示光敏数据
+//	  led_fun();
+    Get_sound();
+	//哈哈哈
 
     /* USER CODE END WHILE */
 
