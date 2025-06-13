@@ -30,4 +30,7 @@ smart_light_sound_switch/menu.o: ..\code\menu.c ..\code\menu.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pwr.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
-  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
+  ..\code\oled.h ..\u8g2\u8g2.h ..\u8g2\u8x8.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\stdarg.h \
+  D:\Keil5MDK\ARM\ARMCLANG\include\limits.h

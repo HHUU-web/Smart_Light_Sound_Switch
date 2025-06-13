@@ -2,48 +2,7 @@
 
 uint8_t key = 0;
 
-//// 按键扫描函数
-//void key_scan(void) {
-//    uint8_t press_time = 0;
 
-//    // 按键1
-//    if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2) == 0) {
-
-//				
-//    }
-
-//    // 按键2
-//    if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1) == 0) {
-
-//       
-//    }
-
-//    // 按键3
-//    if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == 0) {
-
-//    }
-//		// 按键4(位于核心板上)
-//    if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_3) == 0) {
-//        while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_3) == 0) {
-//            HAL_Delay(10);
-//            press_time ++;
-//            if (press_time >= 100) {  // 长按1秒保存
-
-//                return;
-//            }
-//        }
-//        if (press_time < 100) {  // 短按切换参数
-
-//        }
-//    }
-//}
-
-#define KEY_NONE    0
-#define KEY_UP      1
-#define KEY_DOWN    2
-#define KEY_OK      3
-#define KEY_SHORT   4
-#define KEY_LONG    5
 
 typedef enum {
     KEY_IDLE,

@@ -114,9 +114,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  
+	  adjust_light_threshold();
+	  light_to_led();
 //	  led_fun();
-    Get_sound();
 	//¹þ¹þ¹þ
 
     /* USER CODE END WHILE */

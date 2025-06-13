@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-void LED_duty();
+void led_duty(uint16_t led_pwm);
 void led_fun();
 
 
