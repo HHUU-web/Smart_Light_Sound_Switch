@@ -32,13 +32,15 @@ compiling sound_light.c...
   #endif
 ..\code\led.h(7): warning:  #1295-D: Deprecated declaration led_fun - give arg types
   void led_fun();
-..\code\sound_light.c(63): warning:  #223-D: function "fabsf" declared implicitly
+..\code\menu.h(20): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\code\sound_light.c(68): warning:  #223-D: function "fabsf" declared implicitly
       float delta = fabsf(filtered_voltage - last_voltage) * 2.0f; // 变化量放大2倍
-..\code\sound_light.c: 3 warnings, 0 errors
+..\code\sound_light.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=21572 RO-data=1648 RW-data=120 ZI-data=3088  
+Program Size: Code=21808 RO-data=1708 RW-data=116 ZI-data=3092  
 FromELF: creating hex file...
-"Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.axf" - 0 Error(s), 3 Warning(s).
+"Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,7 +63,7 @@ Package Vendor: GigaDevice
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@5.6.0
-Build Time Elapsed:  00:00:11
+Build Time Elapsed:  00:00:07
 </pre>
 </body>
 </html>

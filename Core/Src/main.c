@@ -31,7 +31,7 @@
 #include "led.h"
 #include "oled.h"
 #include "sound_light.h"
-
+#include "menu.h"            
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -113,21 +113,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    Process_Dual_ADC_Data();
-    
-    static uint8_t mode = 1;  // 0:声音模式, 1:光敏模式
-    
-    
-    // 处理当前模式
-    if(mode == 0) {
-        adjust_sound_threshold();
-        sound_to_led();
-    } else {
-        adjust_light_threshold();
-        light_to_led();
-    }
-    
-    HAL_Delay(10);
+		menu();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

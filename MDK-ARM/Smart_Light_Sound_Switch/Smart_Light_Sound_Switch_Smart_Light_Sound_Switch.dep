@@ -1,7 +1,7 @@
 Dependencies for Project 'Smart_Light_Sound_Switch', Target 'Smart_Light_Sound_Switch': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32f103xb.s)(0x684CF664)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include--pd "__UVISION_VERSION SETA 539" --pd "_RTE_ SETA 1" --pd "GD32F10X_MD SETA 1" --pd "USE_STDPERIPH_DRIVER SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xb.lst --xref -o smart_light_sound_switch\startup_stm32f103xb.o --depend smart_light_sound_switch\startup_stm32f103xb.d)
-F (../Core/Src/main.c)(0x684D2840)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\main.o --omf_browse smart_light_sound_switch\main.crf --depend smart_light_sound_switch\main.d)
+F (../Core/Src/main.c)(0x684D2EED)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\main.o --omf_browse smart_light_sound_switch\main.crf --depend smart_light_sound_switch\main.d)
 I (../Core/Inc/main.h)(0x684CF661)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68463F4D)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x684CF661)
@@ -45,7 +45,8 @@ I (..\u8g2\u8g2.h)(0x6430FCBA)
 I (..\u8g2\u8x8.h)(0x64240782)
 I (D:\Keil5MDK\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
 I (D:\Keil5MDK\ARM\ARMCC\include\limits.h)(0x5E8E3CC2)
-I (..\code\sound_light.h)(0x684D0948)
+I (..\code\sound_light.h)(0x684D2A49)
+I (..\code\menu.h)(0x684D2EC0)
 F (../Core/Src/gpio.c)(0x684CF65D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\gpio.o --omf_browse smart_light_sound_switch\gpio.crf --depend smart_light_sound_switch\gpio.d)
 I (../Core/Inc/gpio.h)(0x684CF65E)
 I (../Core/Inc/main.h)(0x684CF661)
@@ -867,8 +868,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x68463F4D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x68463F4D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x68463F4D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x68463F4D)
-F (..\code\key.c)(0x684BC025)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\key.o --omf_browse smart_light_sound_switch\key.crf --depend smart_light_sound_switch\key.d)
-I (..\code\key.h)(0x684BC023)
+F (..\code\key.c)(0x684D3887)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\key.o --omf_browse smart_light_sound_switch\key.crf --depend smart_light_sound_switch\key.d)
+I (..\code\key.h)(0x684D3885)
 I (../Core/Inc/main.h)(0x684CF661)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68463F4D)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x684CF661)
@@ -940,8 +941,8 @@ I (D:\Keil5MDK\ARM\ARMCC\include\limits.h)(0x5E8E3CC2)
 I (../Core/Inc/i2c.h)(0x684CF65F)
 F (..\code\oled.h)(0x6846780A)()
 F (..\code\oledfont.h)(0x5710F968)()
-F (..\code\menu.c)(0x684BA56A)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\menu.o --omf_browse smart_light_sound_switch\menu.crf --depend smart_light_sound_switch\menu.d)
-I (..\code\menu.h)(0x684670C8)
+F (..\code\menu.c)(0x684D3C4E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\menu.o --omf_browse smart_light_sound_switch\menu.crf --depend smart_light_sound_switch\menu.d)
+I (..\code\menu.h)(0x684D2EC0)
 I (../Core/Inc/main.h)(0x684CF661)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68463F4D)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x684CF661)
@@ -978,6 +979,8 @@ I (..\u8g2\u8g2.h)(0x6430FCBA)
 I (..\u8g2\u8x8.h)(0x64240782)
 I (D:\Keil5MDK\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
 I (D:\Keil5MDK\ARM\ARMCC\include\limits.h)(0x5E8E3CC2)
+I (..\code\sound_light.h)(0x684D2A49)
+I (..\code\key.h)(0x684D3885)
 F (..\code\led.c)(0x684BA7CD)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\led.o --omf_browse smart_light_sound_switch\led.crf --depend smart_light_sound_switch\led.d)
 I (..\code\led.h)(0x684BA7AC)
 I (../Core/Inc/main.h)(0x684CF661)
@@ -1013,8 +1016,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x68463F4D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x68463F4D)
 I (../Core/Inc/tim.h)(0x684CF660)
 F (..\code\led.h)(0x684BA7AC)()
-F (..\code\sound_light.c)(0x684D2996)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\sound_light.o --omf_browse smart_light_sound_switch\sound_light.crf --depend smart_light_sound_switch\sound_light.d)
-I (..\code\sound_light.h)(0x684D0948)
+F (..\code\sound_light.c)(0x684D3E4D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\sound_light.o --omf_browse smart_light_sound_switch\sound_light.crf --depend smart_light_sound_switch\sound_light.d)
+I (..\code\sound_light.h)(0x684D2A49)
 I (../Core/Inc/main.h)(0x684CF661)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68463F4D)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x684CF661)
@@ -1053,10 +1056,11 @@ I (D:\Keil5MDK\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
 I (D:\Keil5MDK\ARM\ARMCC\include\limits.h)(0x5E8E3CC2)
 I (../Core/Inc/adc.h)(0x684CF65E)
 I (D:\Keil5MDK\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
-I (..\code\key.h)(0x684BC023)
+I (..\code\key.h)(0x684D3885)
 I (..\code\led.h)(0x684BA7AC)
 I (../Core/Inc/dma.h)(0x684CF65F)
-F (..\code\sound_light.h)(0x684D0948)()
+I (..\code\menu.h)(0x684D2EC0)
+F (..\code\sound_light.h)(0x684D2A49)()
 F (..\u8g2\filelist.txt)(0x643102DC)()
 F (..\u8g2\u8g2.h)(0x6430FCBA)()
 F (..\u8g2\u8g2_bitmap.c)(0x669771EA)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\code -I ..\u8g2-I.\RTE\_Smart_Light_Sound_Switch-ID:\Keil5MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\Keil5MDK\ARM\PACK\GigaDevice\GD32F10x_DFP\2.3.0\Device\Include-D__UVISION_VERSION="539" -D_RTE_ -DGD32F10X_MD -DUSE_STDPERIPH_DRIVER -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_light_sound_switch\u8g2_bitmap.o --omf_browse smart_light_sound_switch\u8g2_bitmap.crf --depend smart_light_sound_switch\u8g2_bitmap.d)

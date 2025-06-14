@@ -37,3 +37,5 @@ smart_light_sound_switch\menu.o: ..\u8g2\u8g2.h
 smart_light_sound_switch\menu.o: ..\u8g2\u8x8.h
 smart_light_sound_switch\menu.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stdarg.h
 smart_light_sound_switch\menu.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\limits.h
+smart_light_sound_switch\menu.o: ..\code\sound_light.h
+smart_light_sound_switch\menu.o: ..\code\key.h

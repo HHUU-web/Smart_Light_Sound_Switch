@@ -42,3 +42,4 @@ smart_light_sound_switch\sound_light.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\std
 smart_light_sound_switch\sound_light.o: ..\code\key.h
 smart_light_sound_switch\sound_light.o: ..\code\led.h
 smart_light_sound_switch\sound_light.o: ../Core/Inc/dma.h
+smart_light_sound_switch\sound_light.o: ..\code\menu.h
