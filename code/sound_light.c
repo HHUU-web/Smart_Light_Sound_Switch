@@ -5,6 +5,8 @@
 #include "led.h"
 #include "dma.h"
 #include "menu.h" 
+#include <string.h> 
+#include <stdio.h>
 /* 全局变量定义 */
 volatile uint8_t dataReady = 0;
 uint16_t adc_buffer[SAMPLE_BUFFER_SIZE * 2];
@@ -68,7 +70,7 @@ void Update_Waveform(float voltage)
     
     // 动态放大变化部分（增强视觉效果）
     static float last_voltage = 0;
-    float delta = fabsf(filtered_voltage - last_voltage) * 2.0f; // 变化量放大2倍
+    float delta = fabsf(filtered_voltage - last_voltage) * 3.0f; // 变化量放大2倍
     float display_voltage = filtered_voltage + delta;
     
     // 归一化存储
@@ -178,6 +180,7 @@ void adjust_sound_threshold()
     sprintf(str, "Max:%.2fV", sound_max_peak);
     u8g2_DrawStr(&u8g2, 0, 24, str);
 
+	printf("Sound:%.2fV", sound_V);
     // 直接按键调节（无需模式切换）
     if(key == KEY_UP) 
     {
@@ -217,7 +220,8 @@ void adjust_light_threshold()
     
     sprintf(str, "Max:%.2fV", light_max_peak);
     u8g2_DrawStr(&u8g2, 0, 24, str);
-
+    
+    printf("Sound:%.2fV", sound_V);
     // 直接按键调节（无需模式切换）
     if(key == KEY_UP) 
     {

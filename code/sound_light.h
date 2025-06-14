@@ -6,7 +6,7 @@
 /* 硬件配置 */
 #define FILTER_WINDOW      3     // 移动平均滤波窗口
 #define SAMPLE_BUFFER_SIZE 32    // ADC采样缓冲区大小
-#define WAVE_HEIGHT       30     // 波形显示高度(像素)
+#define WAVE_HEIGHT       36     // 波形显示高度(像素)
 #define WAVE_HISTORY      128     // 波形历史点数(建议等于OLED宽度)
 
 /* 全局变量声明 */
