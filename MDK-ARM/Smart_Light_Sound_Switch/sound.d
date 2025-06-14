@@ -34,4 +34,5 @@ smart_light_sound_switch/sound.o: ..\code\sound.c ..\code\sound.h \
   ..\Core\Inc\adc.h D:\Keil5MDK\ARM\ARMCLANG\include\stdio.h \
   ..\code\oled.h ..\u8g2\u8g2.h ..\u8g2\u8x8.h \
   D:\Keil5MDK\ARM\ARMCLANG\include\stdarg.h \
-  D:\Keil5MDK\ARM\ARMCLANG\include\limits.h
+  D:\Keil5MDK\ARM\ARMCLANG\include\limits.h ..\code\key.h ..\code\led.h \
+  ..\Core\Inc\dma.h

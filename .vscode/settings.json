@@ -1,6 +1,7 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "oled.h": "c"
+        "oled.h": "c",
+        "sound_light.h": "c"
     }
 }

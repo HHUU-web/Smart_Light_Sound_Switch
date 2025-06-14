@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "dma.h"
 #include "i2c.h"
 #include "tim.h"
 #include "usart.h"
@@ -29,8 +30,7 @@
 /* USER CODE BEGIN Includes */
 #include "led.h"
 #include "oled.h"
-#include "light.h"
-#include "sound.h"
+#include "sound_light.h"
 
 /* USER CODE END Includes */
 
@@ -94,16 +94,15 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_I2C2_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
-  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
   
   HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
-  
-	HAL_Delay(100);
+  SoundLight_Init();
   u8g2Init(&u8g2);
 	HAL_Delay(100);
   u8g2Init(&u8g2);
@@ -114,11 +113,21 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  adjust_light_threshold();
-	  light_to_led();
-//	  led_fun();
-	//哈哈哈
-
+    Process_Dual_ADC_Data();
+    
+    static uint8_t mode = 1;  // 0:声音模式, 1:光敏模式
+    
+    
+    // 处理当前模式
+    if(mode == 0) {
+        adjust_sound_threshold();
+        sound_to_led();
+    } else {
+        adjust_light_threshold();
+        light_to_led();
+    }
+    
+    HAL_Delay(10);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
