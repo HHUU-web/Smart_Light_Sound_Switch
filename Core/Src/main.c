@@ -34,6 +34,7 @@
 #include "menu.h"
 #include <string.h> 
 #include <stdio.h>
+#include "key.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -126,13 +127,20 @@ int main(void)
 	HAL_Delay(100);
   u8g2Init(&u8g2);
 	HAL_Delay(100); 
+  Show_Menu_Config(); //菜单初始化
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		menu();
+    Show_Menu(fast_speed);  //菜单混动函数，修改"fast_speed"可以更改移滚动速度
+
+
+
+
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -47,3 +47,4 @@ smart_light_sound_switch\main.o: ..\code\sound_light.h
 smart_light_sound_switch\main.o: ..\code\menu.h
 smart_light_sound_switch\main.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\string.h
 smart_light_sound_switch\main.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+smart_light_sound_switch\main.o: ..\code\key.h

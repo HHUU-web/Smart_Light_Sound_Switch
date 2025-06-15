@@ -1,0 +1,96 @@
+/* key.c */
+#include "key.h"
+
+// 按键GPIO定义
+typedef struct {
+    GPIO_TypeDef* port;
+    uint16_t pin;
+    uint8_t id;         // 按键ID
+    uint8_t state;      // 当前状态
+    uint32_t press_time; // 按下时间
+} Key_TypeDef;
+
+// 按键状态机状态
+typedef enum {
+    KEY_STATE_IDLE,         // 空闲状态
+    KEY_STATE_DEBOUNCE,     // 消抖状态
+    KEY_STATE_PRESSED,      // 按下状态
+    KEY_STATE_LONG_WAIT,    // 等待长按
+    KEY_STATE_LONG_PRESSED  // 长按状态
+} KeyState;
+
+// 按键配置
+Key_TypeDef keys[] = {
+    {GPIOB, GPIO_PIN_3, KEY_LEFT, KEY_STATE_IDLE, 0},   // 左移键
+    {GPIOB, GPIO_PIN_4, KEY_RIGHT, KEY_STATE_IDLE, 0},  // 右移键
+    {GPIOB, GPIO_PIN_5, KEY_OK, KEY_STATE_IDLE, 0},     // 确认键
+    {GPIOB, GPIO_PIN_6, KEY_EXIT, KEY_STATE_IDLE, 0}    // 退出键
+};
+#define KEY_COUNT (sizeof(keys)/sizeof(keys[0]))
+
+// 全局变量
+uint8_t key = KEY_NONE;
+uint8_t key_id = 0;
+
+
+// 按键扫描函数
+void Key_Scan(void) {
+    static uint32_t last_scan = 0;
+    uint32_t now = HAL_GetTick();
+    
+    // 10ms扫描一次
+    if (now - last_scan < 10) return;
+    last_scan = now;
+    
+    key = KEY_NONE; // 默认无按键
+    
+    for (int i = 0; i < KEY_COUNT; i++) {
+        Key_TypeDef *key = &keys[i];
+        uint8_t is_pressed = (HAL_GPIO_ReadPin(key->port, key->pin) == GPIO_PIN_RESET);
+        
+        switch (key->state) {
+            case KEY_STATE_IDLE:
+                if (is_pressed) {
+                    key->state = KEY_STATE_DEBOUNCE;
+                    key->press_time = now;
+                }
+                break;
+                
+            case KEY_STATE_DEBOUNCE:
+                if (is_pressed) {
+                    if (now - key->press_time > 20) { // 20ms消抖
+                        key->state = KEY_STATE_PRESSED;
+                        key = KEY_PRESSED;
+                        key_id = key->id;
+                    }
+                } else {
+                    key->state = KEY_STATE_IDLE;
+                }
+                break;
+                
+            case KEY_STATE_PRESSED:
+                if (!is_pressed) {
+                    key->state = KEY_STATE_IDLE;
+                } else if (now - key->press_time > 500) { // 500ms后进入长按检测
+                    key->state = KEY_STATE_LONG_WAIT;
+                }
+                break;
+                
+            case KEY_STATE_LONG_WAIT:
+                if (!is_pressed) {
+                    key->state = KEY_STATE_IDLE;
+                } else if (now - key->press_time > 1000) { // 1秒长按
+                    key->state = KEY_STATE_LONG_PRESSED;
+                    key = KEY_LONG;
+                    key_id = key->id;
+                }
+                break;
+                
+            case KEY_STATE_LONG_PRESSED:
+                if (!is_pressed) {
+                    key->state = KEY_STATE_IDLE;
+                }
+                break;
+        }
+    }
+}

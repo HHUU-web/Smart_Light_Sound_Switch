@@ -5,6 +5,8 @@
         "sound_light.h": "c",
         "menu.h": "c",
         "main.h": "c",
-        "stm32f1xx_hal.h": "c"
+        "stm32f1xx_hal.h": "c",
+        "adc.h": "c",
+        "key.h": "c"
     }
 }

@@ -33,5 +33,7 @@ void adjust_sound_threshold(void);
 void adjust_light_threshold(void);
 void Filter_Data(uint16_t *data, uint32_t length);
 uint16_t Find_Max(uint16_t *data, uint32_t length);
+void light_detect(void);
+void sound_detect(void);
 
 #endif

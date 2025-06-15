@@ -103,6 +103,7 @@ void Draw_Waveform(u8g2_t *u8g2)
         prev_y = curr_y;
     }
 }
+uint32_t led_last_time = 2000; 
 // 根据阈值控制 LED
 void sound_to_led() 
 {
@@ -124,7 +125,7 @@ void sound_to_led()
     else 
     {
         // 声音低于阈值时检查是否超时
-        if(led_active && (HAL_GetTick() - trigger_time >= 5000)) 
+        if(led_active && (HAL_GetTick() - trigger_time >= led_last_time)) 
         {
             led_duty(450);             // 5秒后关闭LED
             led_active = 0;
@@ -152,7 +153,7 @@ void light_to_led()
     else 
     {
         // 声音低于阈值时检查是否超时
-        if(led_active && (HAL_GetTick() - trigger_time >= 5000)) 
+        if(led_active && (HAL_GetTick() - trigger_time >= led_last_time)) 
         {
             led_duty(450);             // 5秒后关闭LED
             led_active = 0;
@@ -180,15 +181,15 @@ void adjust_sound_threshold()
     sprintf(str, "Max:%.2fV", sound_max_peak);
     u8g2_DrawStr(&u8g2, 0, 24, str);
 
-	printf("Sound:%.2fV", sound_V);
+    printf("Sound:%.2fV\n", sound_V);
     // 直接按键调节（无需模式切换）
-    if(key == KEY_UP) 
+    if(key == KEY_LEFT) 
     {
         sound_threshold += 0.1f;
         if(sound_threshold > 3.3f) sound_threshold = 3.3f;
         key = KEY_NONE;
     }
-    else if(key == KEY_DOWN) 
+    else if(key == KEY_RIGHT) 
     {
         sound_threshold -= 0.1f;
         if(sound_threshold < 0.0f) sound_threshold = 0.0f;
@@ -198,7 +199,7 @@ void adjust_sound_threshold()
     Draw_Waveform(&u8g2);
     u8g2_SendBuffer(&u8g2);
 
-    if(key == KEY_OK) current_mode = MODE_MENU;
+    
     key=0;
 }
 
@@ -221,15 +222,15 @@ void adjust_light_threshold()
     sprintf(str, "Max:%.2fV", light_max_peak);
     u8g2_DrawStr(&u8g2, 0, 24, str);
     
-    printf("Sound:%.2fV", sound_V);
+    printf("Light:%.2fV\n", light_V);
     // 直接按键调节（无需模式切换）
-    if(key == KEY_UP) 
+    if(key == KEY_LEFT) 
     {
         light_threshold += 0.1f;
         if(light_threshold > 3.3f) light_threshold = 3.3f;
         key = KEY_NONE;
     }
-    else if(key == KEY_DOWN) 
+    else if(key == KEY_RIGHT) 
     {
         light_threshold -= 0.1f;
         if(light_threshold < 0.0f) light_threshold = 0.0f;
@@ -238,7 +239,7 @@ void adjust_light_threshold()
     Draw_Waveform(&u8g2);
     u8g2_SendBuffer(&u8g2);
 
-    if(key == KEY_OK) current_mode = MODE_MENU;
+   
     key=0;
 }
 
@@ -280,5 +281,21 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
     {
         dataReady = 1;  // 设置数据准备标志
     }
+}
+
+void light_detect(void)
+{
+    Process_Dual_ADC_Data();
+    adjust_light_threshold();
+    light_to_led();
+
+}
+
+void sound_detect(void)
+{
+    Process_Dual_ADC_Data();
+    adjust_light_threshold();
+    light_to_led();
+
 }
 
