@@ -14,7 +14,11 @@ WaveformData sound_wave = {0};
 float sound_V = 0, light_V = 0;
 float sound_threshold = 1.0f, light_threshold = 0.0f;
 char str[32];
-
+extern WaveformData sound_wave;
+extern float sound_V, light_V;
+extern float sound_threshold, light_threshold;
+extern uint8_t Game_Menu_Flag;
+extern uint32_t led_last_time; 
 // 初始化函数
 void SoundLight_Init() 
 {
@@ -103,7 +107,7 @@ void Draw_Waveform(u8g2_t *u8g2)
         prev_y = curr_y;
     }
 }
-uint32_t led_last_time = 2000; 
+
 // 根据阈值控制 LED
 void sound_to_led() 
 {
@@ -115,7 +119,7 @@ void sound_to_led()
         // 声音超过阈值时激活LED并记录时间
         if(!led_active) 
         {
-            led_duty(0);           // 点亮LED
+            led_duty(led_on);           // 点亮LED
             trigger_time = HAL_GetTick();
             led_active = 1;
         }
@@ -127,7 +131,7 @@ void sound_to_led()
         // 声音低于阈值时检查是否超时
         if(led_active && (HAL_GetTick() - trigger_time >= led_last_time)) 
         {
-            led_duty(450);             // 5秒后关闭LED
+            led_duty(100);             // 5秒后关闭LED
             led_active = 0;
         }
     }
@@ -143,7 +147,7 @@ void light_to_led()
         // 声音超过阈值时激活LED并记录时间
         if(!led_active) 
         {
-            led_duty(0);           // 点亮LED
+            led_duty(led_on);           // 点亮LED
             trigger_time = HAL_GetTick();
             led_active = 1;
         }
@@ -155,7 +159,7 @@ void light_to_led()
         // 声音低于阈值时检查是否超时
         if(led_active && (HAL_GetTick() - trigger_time >= led_last_time)) 
         {
-            led_duty(450);             // 5秒后关闭LED
+            led_duty(100);             // 5秒后关闭LED
             led_active = 0;
         }
     }
@@ -166,12 +170,13 @@ void adjust_sound_threshold()
 {  
     key=0;
     key_scan();
+    Game_Menu_Flag = key;
     Update_Waveform(sound_V);  // 更新波形数据
 
     u8g2_ClearBuffer(&u8g2);
     
     // 实时显示当前值和阈值
-    u8g2_SetFont(&u8g2, u8g2_font_6x10_tr);
+    u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr );
     sprintf(str, "Sound:%.2fV", sound_V);
     u8g2_DrawStr(&u8g2, 0, 12, str);
     
@@ -181,7 +186,7 @@ void adjust_sound_threshold()
     sprintf(str, "Max:%.2fV", sound_max_peak);
     u8g2_DrawStr(&u8g2, 0, 24, str);
 
-    printf("Sound:%.2fV\n", sound_V);
+    printf("Sound:%.2fV\n", sound_V);//串口发送
     // 直接按键调节（无需模式切换）
     if(key == KEY_LEFT) 
     {
@@ -199,48 +204,46 @@ void adjust_sound_threshold()
     Draw_Waveform(&u8g2);
     u8g2_SendBuffer(&u8g2);
 
-    
-    key=0;
 }
 
 void adjust_light_threshold()
 {  
-    key=0;
-    key_scan();
-    Update_Waveform(light_V);  // 更新波形数据
+        key=0;
+        key_scan();
+        Game_Menu_Flag = key;
+        Update_Waveform(light_V);  // 更新波形数据
 
-    u8g2_ClearBuffer(&u8g2);
-    
-    // 实时显示当前值和阈值
-    u8g2_SetFont(&u8g2, u8g2_font_6x10_tr);
-    sprintf(str, "light:%.2fV", light_V);
-    u8g2_DrawStr(&u8g2, 0, 12, str);
-    
-    sprintf(str, "Set:%.2fV", light_threshold);
-    u8g2_DrawStr(&u8g2, 64, 12, str);
-    
-    sprintf(str, "Max:%.2fV", light_max_peak);
-    u8g2_DrawStr(&u8g2, 0, 24, str);
-    
-    printf("Light:%.2fV\n", light_V);
-    // 直接按键调节（无需模式切换）
-    if(key == KEY_LEFT) 
-    {
-        light_threshold += 0.1f;
-        if(light_threshold > 3.3f) light_threshold = 3.3f;
-        key = KEY_NONE;
-    }
-    else if(key == KEY_RIGHT) 
-    {
-        light_threshold -= 0.1f;
-        if(light_threshold < 0.0f) light_threshold = 0.0f;
-        key = KEY_NONE;
-    }
-    Draw_Waveform(&u8g2);
-    u8g2_SendBuffer(&u8g2);
+        u8g2_ClearBuffer(&u8g2);
+        
+        // 实时显示当前值和阈值
+        u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr );
+        sprintf(str, "light:%.2fV", light_V);
+        u8g2_DrawStr(&u8g2, 0, 12, str);
+        
+        sprintf(str, "Set:%.2fV", light_threshold);
+        u8g2_DrawStr(&u8g2, 64, 12, str);
+        
+        sprintf(str, "Max:%.2fV", light_max_peak);
+        u8g2_DrawStr(&u8g2, 0, 24, str);
+        printf("Light:%.2fV\n", light_V);//串口发送
+        // 直接按键调节（无需模式切换）
+        if(key == KEY_LEFT) 
+        {
+            light_threshold += 0.1f;
+            if(light_threshold > 3.3f) light_threshold = 3.3f;
+            key = KEY_NONE;
+        }
+        else if(key == KEY_RIGHT) 
+        {
+            light_threshold -= 0.1f;
+            if(light_threshold < 0.0f) light_threshold = 0.0f;
+            key = KEY_NONE;
+        }
 
-   
-    key=0;
+        Draw_Waveform(&u8g2);
+        u8g2_SendBuffer(&u8g2);
+    
+    
 }
 
 // 移动平均滤波
@@ -285,17 +288,79 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 
 void light_detect(void)
 {
-    Process_Dual_ADC_Data();
-    adjust_light_threshold();
-    light_to_led();
-
+    while(1)
+    {
+        Process_Dual_ADC_Data();
+        adjust_light_threshold();
+        light_to_led();
+        if(Game_Menu_Flag == KEY_EXIT)
+        {
+            u8g2_ClearBuffer(&u8g2);
+            Show_Menu_Config();  
+            break;
+        }
+    }
 }
 
 void sound_detect(void)
 {
-    Process_Dual_ADC_Data();
-    adjust_light_threshold();
-    light_to_led();
+    while(1)
+    {
+        Process_Dual_ADC_Data();
+        adjust_sound_threshold();
+        sound_to_led();
+        if(Game_Menu_Flag == KEY_EXIT)
+        {
+            u8g2_ClearBuffer(&u8g2);
+            Show_Menu_Config();  
+            break;
+        }
+    }
 
 }
 
+void mix_detect(void)
+{
+    while(1)
+    {
+        key=0;
+        key_scan();
+        Game_Menu_Flag = key;
+
+        Process_Dual_ADC_Data();
+
+        // Update_Waveform(sound_V);  // 更新波形数据
+        Update_Waveform(light_V);  // 更新波形数据
+
+        u8g2_ClearBuffer(&u8g2);
+    
+        // 实时显示声音当前值和阈值
+        u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr  );
+        sprintf(str, "Sound:%.2fV", sound_V);
+        u8g2_DrawStr(&u8g2, 0, 10, str);
+        sprintf(str, "Set:%.2fV", sound_threshold);
+        u8g2_DrawStr(&u8g2, 64, 10, str);
+        sprintf(str, "Max:%.2fV", sound_max_peak);
+        u8g2_DrawStr(&u8g2, 0, 20, str);
+
+        // 实时显示光当前值和阈值
+        sprintf(str, "light:%.2fV", light_V);
+        u8g2_DrawStr(&u8g2, 0, 30, str);
+        sprintf(str, "Set:%.2fV", light_threshold);
+        u8g2_DrawStr(&u8g2, 64, 30, str);
+        sprintf(str, "Max:%.2fV", light_max_peak);
+        u8g2_DrawStr(&u8g2, 0, 40, str);
+
+        Draw_Waveform(&u8g2);
+        u8g2_SendBuffer(&u8g2);
+
+        sound_to_led();
+        light_to_led();
+        if(Game_Menu_Flag == KEY_EXIT)
+        {
+            u8g2_ClearBuffer(&u8g2);
+            Show_Menu_Config();  
+            break;
+        }
+    }
+}

@@ -12,15 +12,14 @@
 /* 全局变量声明 */
 extern u8g2_t u8g2;
 extern uint8_t key;
+extern uint16_t led_on;//led最亮为0，关为100
 
 typedef struct {
     uint8_t samples[WAVE_HISTORY];  // 波形数据环形缓冲区
     uint8_t index;                  // 当前写入位置
 } WaveformData;
 
-extern WaveformData sound_wave;
-extern float sound_V, light_V;
-extern float sound_threshold, light_threshold;
+
 
 /* 函数声明 */
 void SoundLight_Init(void);
@@ -35,5 +34,5 @@ void Filter_Data(uint16_t *data, uint32_t length);
 uint16_t Find_Max(uint16_t *data, uint32_t length);
 void light_detect(void);
 void sound_detect(void);
-
+void mix_detect(void);
 #endif

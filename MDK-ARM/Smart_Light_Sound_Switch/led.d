@@ -33,3 +33,11 @@ smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ha
 smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 smart_light_sound_switch\led.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 smart_light_sound_switch\led.o: ../Core/Inc/tim.h
+smart_light_sound_switch\led.o: ..\code\key.h
+smart_light_sound_switch\led.o: ..\u8g2\u8g2.h
+smart_light_sound_switch\led.o: ..\u8g2\u8x8.h
+smart_light_sound_switch\led.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+smart_light_sound_switch\led.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\limits.h
+smart_light_sound_switch\led.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+smart_light_sound_switch\led.o: D:\Keil5MDK\ARM\ARMCC\Bin\..\include\string.h
+smart_light_sound_switch\led.o: ..\code\menu.h

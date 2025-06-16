@@ -26,9 +26,12 @@ void ui_right_one_Picture(int16_t* a, int b);
 void ui_left_one_Picture(int16_t* a, int b );
 void Show_Menu(Speed_ENUM Speed_choose);
 void Show_Menu_Config(void);
-void Light_Detection_Menu(void);
-void To_Light_Detection_Menu(void);//菜单→光强检测菜单过渡动画
-void Light_Detection_To_Menu_Display(void);//光强检测菜单→菜单过渡动画
+void Blib_adjustment_Menu(void);
+void To_Blib_adjustment_Menu(void);//菜单→光强检测菜单过渡动画
+void Blib_adjustment_To_Menu_Display(void);//光强检测菜单→菜单过渡动画
+void Serial_Adjustment_Menu(void); 
+void To_Serial_Adjustment_Menu(void);//菜单→串口模式菜单过渡动画
+void Serial_Adjustment_To_Menu_Display(void);//串口模式菜单→菜单过渡动画
 
 
 
