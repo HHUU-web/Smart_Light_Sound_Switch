@@ -6,13 +6,13 @@
 #include <string.h> 
 #include "menu.h" 
 
-uint16_t led_on=50;//led最亮为0，关为100
+int led_on=0;//led最亮为0，关为100
 uint32_t led_last_time = 5000;
 int time=5; 
 char led[32];
 extern u8g2_t u8g2; 
 extern uint8_t Game_Menu_Flag;
-void led_duty(uint16_t led_pwm)
+void led_duty(int led_pwm)
 {
 	__HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_1,led_pwm);
 }

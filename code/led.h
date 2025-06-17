@@ -5,7 +5,7 @@
 
 
 
-void led_duty(uint16_t led_pwm);
+void led_duty(int led_pwm);
 void led_fun();
 void bright_adjust(void);
 void time_adjust(void);

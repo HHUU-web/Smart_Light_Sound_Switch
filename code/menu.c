@@ -18,6 +18,7 @@ int16_t display=48;
 int16_t diaplay_trg=1;
 uint8_t circle_num;
 static uint8_t Picture_Flag=0;//功能选择标志位
+int send_light=0,send_sound=0;//串口选择发送数据标志位
 const char words[][20] = {
     {"LIGHT DETECTION"},
     {"SOUND DETECTION"},
@@ -409,6 +410,26 @@ void Serial_Adjustment_Menu(void)
             u8g2_DrawStr(&u8g2,3,24,text);
             sprintf(text, "Send Sound Data");
             u8g2_DrawStr(&u8g2,3,36,text);
+            if(send_light==1)
+            {
+                sprintf(text, "ON");
+                u8g2_DrawStr(&u8g2,100,24,text);
+            }
+            else if(send_light==0)
+            {
+                sprintf(text, "OFF");
+                u8g2_DrawStr(&u8g2,100,24,text);
+            }
+            if(send_sound==1)
+            {
+                sprintf(text, "ON");
+                u8g2_DrawStr(&u8g2,100,36,text);
+            }
+            else if(send_sound==0)
+            {
+                sprintf(text, "OFF");
+                u8g2_DrawStr(&u8g2,100,36,text);
+            }
             
             ui_run(&Box_x, &Box_x_trg,1);
             ui_run(&Box_y, &Box_y_trg,1);
@@ -433,11 +454,12 @@ void Serial_Adjustment_Menu(void)
             {
                 if(Box_Flag==0)
                 {
-                    // send_light_data(); // 发送光强数据
+                    send_light=!send_light;
                 }
                 else if(Box_Flag==1)
                 {
-                    // send_sound_data(); // 发送声音数据
+                    send_sound=!send_sound;
+
                 }
             }
             if(Game_Menu_Flag == KEY_EXIT)

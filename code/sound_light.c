@@ -23,6 +23,7 @@ extern uint32_t led_last_time;
 void SoundLight_Init() 
 {
     // 启动ADC DMA采集
+    HAL_ADCEx_Calibration_Start(&hadc1);
     HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, SAMPLE_BUFFER_SIZE*2);
 }
 
@@ -48,6 +49,7 @@ void Process_Dual_ADC_Data()
         // 计算电压值(3.3V参考)
         float current_light = Find_Max(light_samples, SAMPLE_BUFFER_SIZE) * 3.3f / 4096;
         float current_sound = Find_Max(sound_samples, SAMPLE_BUFFER_SIZE) * 3.3f / 4096;
+
         if(current_light > light_max_peak) 
         {
             light_max_peak = current_light;
@@ -186,7 +188,10 @@ void adjust_sound_threshold()
     sprintf(str, "Max:%.2fV", sound_max_peak);
     u8g2_DrawStr(&u8g2, 0, 24, str);
 
-    printf("Sound:%.2fV\n", sound_V);//串口发送
+    if(send_sound)
+    {
+        printf("Sound:%.2fV\n", sound_V);//串口发送
+    }
     // 直接按键调节（无需模式切换）
     if(key == KEY_LEFT) 
     {
@@ -225,7 +230,10 @@ void adjust_light_threshold()
         
         sprintf(str, "Max:%.2fV", light_max_peak);
         u8g2_DrawStr(&u8g2, 0, 24, str);
-        printf("Light:%.2fV\n", light_V);//串口发送
+        if(send_light)
+        {
+            printf("Light:%.2fV\n", light_V);//串口发送
+        }
         // 直接按键调节（无需模式切换）
         if(key == KEY_LEFT) 
         {

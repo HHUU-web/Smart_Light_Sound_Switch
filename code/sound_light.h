@@ -12,8 +12,8 @@
 /* 全局变量声明 */
 extern u8g2_t u8g2;
 extern uint8_t key;
-extern uint16_t led_on;//led最亮为0，关为100
-
+extern int led_on;//led最亮为0，关为100
+extern int send_light,send_sound;//串口选择发送数据标志位
 typedef struct {
     uint8_t samples[WAVE_HISTORY];  // 波形数据环形缓冲区
     uint8_t index;                  // 当前写入位置
