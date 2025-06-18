@@ -9,6 +9,7 @@
         "adc.h": "c",
         "key.h": "c",
         "led.h": "c",
-        "dma.h": "c"
+        "dma.h": "c",
+        "tim.h": "c"
     }
 }

@@ -7,105 +7,124 @@
 #include "menu.h" 
 #include <string.h> 
 #include <stdio.h>
-/* 全局变量定义 */
-volatile uint8_t dataReady = 0;
-uint16_t adc_buffer[SAMPLE_BUFFER_SIZE * 2];
-WaveformData sound_wave = {0};
-float sound_V = 0, light_V = 0;
-float sound_threshold = 1.0f, light_threshold = 0.0f;
-char str[32];
+
 extern WaveformData sound_wave;
-extern float sound_V, light_V;
-extern float sound_threshold, light_threshold;
+extern float sound_threshold;
+extern uint32_t light_threshold;
 extern uint8_t Game_Menu_Flag;
 extern uint32_t led_last_time; 
+
+volatile uint16_t ADC_Buffer[2];  // DMA采集缓冲区（双路：声音+光强）
+WaveformData sound_wave = {0};
+float sound_threshold = 620;
+uint32_t light_threshold = 500;
+char str[32];
+
+
+// 数据处理
+#define LIGHT_FILTER_ALPHA 0.1f   // 光强滤波参数（越小越平稳）
+#define SOUND_FILTER_ALPHA 0.2f   // 声音滤波参数（越小越平稳）
+float sound_db = 0.0f;         // 声音分贝值
+uint32_t light_lux = 0;        // 光强照度值 (0-65536Lx)
+uint32_t light_sum = 0;
+uint32_t voice_amp_sum = 0;
+uint8_t sample_count = 0;
+// 声强检测相关变量
+uint8_t voice_counter = 0;
+uint16_t voice_max = 0, voice_min = 4095;
+
+
 // 初始化函数
-void SoundLight_Init() 
+void SoundLight_Init(void) 
 {
-    // 启动ADC DMA采集
+    // 启动ADC校准和DMA采集
     HAL_ADCEx_Calibration_Start(&hadc1);
-    HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, SAMPLE_BUFFER_SIZE*2);
+    HAL_ADC_Start_DMA(&hadc1, (uint32_t*)ADC_Buffer, 2);
 }
-
-float sound_max_peak = 0,light_max_peak = 0;  // 定义最大峰值变量
-/* ADC数据处理 */
-void Process_Dual_ADC_Data() 
+// ADC值转电压函数
+float adc_to_voltage(uint16_t adc_val) {
+    return adc_val * 3.3f / 4095.0f;
+}
+// 定时器5ms回调函数
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    if(dataReady) {
-        uint16_t sound_samples[SAMPLE_BUFFER_SIZE];
-        uint16_t light_samples[SAMPLE_BUFFER_SIZE];
-        
-        // 分离双通道数据
-        for(int i=0; i<SAMPLE_BUFFER_SIZE; i++) 
+    if (htim->Instance == TIM2) // 5ms定时器
+    {
+        uint16_t light = ADC_Buffer[0];
+        uint16_t voice = ADC_Buffer[1];
+
+        // 1. 光强转换
+        float lux = (float)(light) * 65536.0f / 4095.0f;
+        if (lux > 65536.0f) lux = 65536.0f;
+
+        light_sum += (uint32_t)lux;
+
+        // 2. 声音处理（每25ms计算一次幅度）
+        if (voice > voice_max) voice_max = voice;
+        if (voice < voice_min) voice_min = voice;
+        voice_counter++;
+
+        if (voice_counter >= 5)  // 25ms 到了
         {
-            light_samples[i] = adc_buffer[i*2];     // 通道1(光敏)
-            sound_samples[i] = adc_buffer[i*2+1];   // 通道9(声音)
+            voice_counter = 0;
+
+            uint16_t amplitude = voice_max - voice_min;
+            voice_amp_sum += amplitude;
+
+            voice_max = 0;
+            voice_min = 4095;
+
+            sample_count++;
         }
 
-        // 滤波处理
-        Filter_Data(light_samples, SAMPLE_BUFFER_SIZE);
-        Filter_Data(sound_samples, SAMPLE_BUFFER_SIZE);
-        
-        // 计算电压值(3.3V参考)
-        float current_light = Find_Max(light_samples, SAMPLE_BUFFER_SIZE) * 3.3f / 4096;
-        float current_sound = Find_Max(sound_samples, SAMPLE_BUFFER_SIZE) * 3.3f / 4096;
+        // 3. 每满100次输出一次（100 * 5ms = 500ms）
+        if (sample_count >= 70 / 5)  // 20次 * 25ms = 500ms
+        {
+            light_lux = light_sum / 70;          // 100次平均光强
+            sound_db = voice_amp_sum / 14;        // 20次平均声音幅度
 
-        if(current_light > light_max_peak) 
-        {
-            light_max_peak = current_light;
+            // 重置累加
+            light_sum = 0;
+            voice_amp_sum = 0;
+            sample_count = 0;
         }
-        if(current_sound > sound_max_peak) 
-        {
-            sound_max_peak = current_sound;
-        }
-        light_V = current_light;  // 更新当前值
-        sound_V = current_sound;  // 更新当前值
-       
-        dataReady = 0;
-        HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, SAMPLE_BUFFER_SIZE*2);
     }
 }
-#define WAVE_SMOOTHING 0.3f  // 平滑系数(0.1-0.3)
 
-void Update_Waveform(float voltage) 
+#define WAVE_HEIGHT       60     // 波形显示高度(像素)
+#define WAVE_HISTORY      128     // 波形历史点数(建议等于OLED宽度)
+#define WAVE_TYPE_SOUND 0
+#define WAVE_TYPE_LIGHT 1
+
+uint8_t waveform_type = WAVE_TYPE_SOUND;  // 默认波形类型
+
+void Update_Waveform_Raw(uint16_t raw_input)
 {
-    static float filtered_voltage = 0;
-    
-    // 一阶低通滤波（核心防抖）
-    filtered_voltage = filtered_voltage * (1-WAVE_SMOOTHING) + voltage * WAVE_SMOOTHING;
-    
-    // 动态放大变化部分（增强视觉效果）
-    static float last_voltage = 0;
-    float delta = fabsf(filtered_voltage - last_voltage) * 3.0f; // 变化量放大2倍
-    float display_voltage = filtered_voltage + delta;
-    
-    // 归一化存储
-    sound_wave.samples[sound_wave.index] = (uint8_t)(display_voltage * 255 / 3.3f);
+    sound_wave.samples[sound_wave.index] = raw_input;
     sound_wave.index = (sound_wave.index + 1) % WAVE_HISTORY;
-    last_voltage = filtered_voltage;
 }
 
-void Draw_Waveform(u8g2_t *u8g2) 
+
+void Draw_Waveform(u8g2_t *u8g2)
 {
-    const uint8_t y_base = 58; // 基线位置
-    uint8_t prev_y = y_base - (sound_wave.samples[sound_wave.index] * WAVE_HEIGHT / 256);
-    
-    // 绘制基线
+    const uint8_t y_base = 58;
+    uint16_t max_val = (waveform_type == WAVE_TYPE_LIGHT) ? 65535 : 4095;
+
     u8g2_DrawHLine(u8g2, 0, y_base, WAVE_HISTORY);
-    
-    // 绘制粗线波形（2像素宽）
-    for(uint8_t i=1; i<WAVE_HISTORY; i++) 
+
+    uint8_t prev_y = y_base - (sound_wave.samples[sound_wave.index] * WAVE_HEIGHT / max_val);
+
+    for(uint8_t i = 1; i < WAVE_HISTORY; i++)
     {
         uint8_t x = i;
-        uint8_t curr_y = y_base - (sound_wave.samples[(sound_wave.index+i)%WAVE_HISTORY] * WAVE_HEIGHT / 256);
-        
-        // 限制范围
-        curr_y = (curr_y < y_base-WAVE_HEIGHT) ? y_base-WAVE_HEIGHT : curr_y;
-        
-        // 绘制线段（加粗）
-        u8g2_DrawLine(u8g2, x-1, prev_y, x, curr_y);
-        u8g2_DrawPixel(u8g2, x, curr_y+1); // 下边缘像素
-        
+        uint16_t raw = sound_wave.samples[(sound_wave.index + i) % WAVE_HISTORY];
+
+        uint8_t curr_y = y_base - (raw * WAVE_HEIGHT / max_val);
+        curr_y = (curr_y < y_base - WAVE_HEIGHT) ? (y_base - WAVE_HEIGHT) : curr_y;
+
+        u8g2_DrawLine(u8g2, x - 1, prev_y, x, curr_y);
+        u8g2_DrawPixel(u8g2, x, curr_y + 1);
+
         prev_y = curr_y;
     }
 }
@@ -116,7 +135,7 @@ void sound_to_led()
     static uint32_t trigger_time = 0;  // 记录触发时刻
     static uint8_t led_active = 0;    // LED状态标志
     
-    if(sound_V >= sound_threshold) 
+    if(sound_db >= sound_threshold) 
     {
         // 声音超过阈值时激活LED并记录时间
         if(!led_active) 
@@ -144,7 +163,7 @@ void light_to_led()
     static uint32_t trigger_time = 0;  // 记录触发时刻
     static uint8_t led_active = 0;    // LED状态标志
     
-    if(light_V <= light_threshold) 
+    if(light_lux <= light_threshold) 
     {
         // 声音超过阈值时激活LED并记录时间
         if(!led_active) 
@@ -173,36 +192,31 @@ void adjust_sound_threshold()
     key=0;
     key_scan();
     Game_Menu_Flag = key;
-    Update_Waveform(sound_V);  // 更新波形数据
-
+    waveform_type = WAVE_TYPE_SOUND;
+    Update_Waveform_Raw((uint16_t)sound_db); 
     u8g2_ClearBuffer(&u8g2);
     
     // 实时显示当前值和阈值
     u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr );
-    sprintf(str, "Sound:%.2fV", sound_V);
+    sprintf(str, "Sound:%.0f db", sound_db);
     u8g2_DrawStr(&u8g2, 0, 12, str);
     
-    sprintf(str, "Set:%.2fV", sound_threshold);
+    sprintf(str, "Set:%.0f db", sound_threshold);
     u8g2_DrawStr(&u8g2, 64, 12, str);
     
-    sprintf(str, "Max:%.2fV", sound_max_peak);
-    u8g2_DrawStr(&u8g2, 0, 24, str);
 
-    if(send_sound)
-    {
-        printf("Sound:%.2fV\n", sound_V);//串口发送
-    }
+    printf("Sound:%.0f db\n", sound_db);//串口发送
     // 直接按键调节（无需模式切换）
     if(key == KEY_LEFT) 
     {
-        sound_threshold += 0.1f;
-        if(sound_threshold > 3.3f) sound_threshold = 3.3f;
+        sound_threshold += 100;
+        if(sound_threshold > 4095) sound_threshold = 4095;
         key = KEY_NONE;
     }
     else if(key == KEY_RIGHT) 
     {
-        sound_threshold -= 0.1f;
-        if(sound_threshold < 0.0f) sound_threshold = 0.0f;
+        sound_threshold -= 100;
+        if(sound_threshold < 0) sound_threshold = 0;
         key = KEY_NONE;
     }
 
@@ -216,35 +230,31 @@ void adjust_light_threshold()
         key=0;
         key_scan();
         Game_Menu_Flag = key;
-        Update_Waveform(light_V);  // 更新波形数据
+        waveform_type = WAVE_TYPE_LIGHT;
+        Update_Waveform_Raw(light_lux); 
 
         u8g2_ClearBuffer(&u8g2);
         
         // 实时显示当前值和阈值
         u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr );
-        sprintf(str, "light:%.2fV", light_V);
+        sprintf(str, "light:%d Lx", light_lux);
         u8g2_DrawStr(&u8g2, 0, 12, str);
         
-        sprintf(str, "Set:%.2fV", light_threshold);
+        sprintf(str, "Set:%d Lx", light_threshold);
         u8g2_DrawStr(&u8g2, 64, 12, str);
         
-        sprintf(str, "Max:%.2fV", light_max_peak);
-        u8g2_DrawStr(&u8g2, 0, 24, str);
-        if(send_light)
-        {
-            printf("Light:%.2fV\n", light_V);//串口发送
-        }
+        printf("Light:%d Lx\n", light_lux);//串口发送
         // 直接按键调节（无需模式切换）
         if(key == KEY_LEFT) 
         {
-            light_threshold += 0.1f;
-            if(light_threshold > 3.3f) light_threshold = 3.3f;
+            light_threshold += 100;
+            if(light_threshold > 65535) light_threshold = 65535;
             key = KEY_NONE;
         }
         else if(key == KEY_RIGHT) 
         {
-            light_threshold -= 0.1f;
-            if(light_threshold < 0.0f) light_threshold = 0.0f;
+            light_threshold -= 100;
+            if(light_threshold < 0) light_threshold = 0;
             key = KEY_NONE;
         }
 
@@ -254,43 +264,12 @@ void adjust_light_threshold()
     
 }
 
-// 移动平均滤波
-void Filter_Data(uint16_t *data, uint32_t length) 
-{
-    uint16_t temp[FILTER_WINDOW];
-    for(uint32_t i=FILTER_WINDOW/2; i<length-FILTER_WINDOW/2; i++) 
-    {
-        uint32_t sum = 0;
-        for(uint32_t j=0; j<FILTER_WINDOW; j++) 
-        {
-            temp[j] = data[i-FILTER_WINDOW/2+j];
-            sum += temp[j];
-        }
-        data[i] = sum / FILTER_WINDOW;
-    }
-}
-
-
-// 查找最大值
-uint16_t Find_Max(uint16_t *data, uint32_t length)
-{
-    uint16_t max = 0;
-    for(uint32_t i = 0; i < length; i++) 
-    {
-        if(data[i] > max) 
-        {
-            max = data[i];
-        }
-    }
-    return max;
-}
-
 // DMA传输完成回调函数
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
     if(hadc->Instance == hadc1.Instance) 
     {
-        dataReady = 1;  // 设置数据准备标志
+
     }
 }
 
@@ -298,7 +277,6 @@ void light_detect(void)
 {
     while(1)
     {
-        Process_Dual_ADC_Data();
         adjust_light_threshold();
         light_to_led();
         if(Game_Menu_Flag == KEY_EXIT)
@@ -314,7 +292,6 @@ void sound_detect(void)
 {
     while(1)
     {
-        Process_Dual_ADC_Data();
         adjust_sound_threshold();
         sound_to_led();
         if(Game_Menu_Flag == KEY_EXIT)
@@ -335,29 +312,23 @@ void mix_detect(void)
         key_scan();
         Game_Menu_Flag = key;
 
-        Process_Dual_ADC_Data();
-
-        // Update_Waveform(sound_V);  // 更新波形数据
-        Update_Waveform(light_V);  // 更新波形数据
+        waveform_type = WAVE_TYPE_LIGHT;
+        Update_Waveform_Raw(light_lux); 
 
         u8g2_ClearBuffer(&u8g2);
     
         // 实时显示声音当前值和阈值
         u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr  );
-        sprintf(str, "Sound:%.2fV", sound_V);
+        sprintf(str, "Sound:%.0f db", sound_db);
         u8g2_DrawStr(&u8g2, 0, 10, str);
-        sprintf(str, "Set:%.2fV", sound_threshold);
+        sprintf(str, "Set:%.0f db", sound_threshold);
         u8g2_DrawStr(&u8g2, 64, 10, str);
-        sprintf(str, "Max:%.2fV", sound_max_peak);
-        u8g2_DrawStr(&u8g2, 0, 20, str);
 
         // 实时显示光当前值和阈值
-        sprintf(str, "light:%.2fV", light_V);
+        sprintf(str, "light:%d Lx", light_lux);
         u8g2_DrawStr(&u8g2, 0, 30, str);
-        sprintf(str, "Set:%.2fV", light_threshold);
+        sprintf(str, "Set:%d Lx", light_threshold);
         u8g2_DrawStr(&u8g2, 64, 30, str);
-        sprintf(str, "Max:%.2fV", light_max_peak);
-        u8g2_DrawStr(&u8g2, 0, 40, str);
 
         Draw_Waveform(&u8g2);
         u8g2_SendBuffer(&u8g2);

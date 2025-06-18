@@ -118,10 +118,12 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_UART_Receive_IT(&huart1, (uint8_t *)&aRxBuffer, 1);
   HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
+  HAL_TIM_Base_Start_IT(&htim2);
   SoundLight_Init();
   u8g2Init(&u8g2);
 	HAL_Delay(100);

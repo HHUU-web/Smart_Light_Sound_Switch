@@ -22,23 +22,29 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 D:\1PROJECT\light_sound_course_project2\Smart_Light_Sound_Switch\MDK-ARM\Smart_Light_Sound_Switch.uvprojx
-Project File Date:  06/16/2025
+Project File Date:  06/17/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil5MDK\ARM\ARMCC\Bin'
 Build target 'Smart_Light_Sound_Switch'
-compiling menu.c...
-..\code\menu.h(38): warning:  #1-D: last line of file ends without a newline
-  #endif /* __MENU_H */
+compiling sound_light.c...
 ..\code\key.h(16): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\code\led.h(9): warning:  #1295-D: Deprecated declaration led_fun - give arg types
   void led_fun();
-..\code\menu.c: 3 warnings, 0 errors
+..\code\menu.h(38): warning:  #1-D: last line of file ends without a newline
+  #endif /* __MENU_H */
+..\code\sound_light.c(123): warning:  #514-D: pointless comparison of unsigned integer with a negative constant
+          curr_y = (curr_y < y_base - WAVE_HEIGHT) ? (y_base - WAVE_HEIGHT) : curr_y;
+..\code\sound_light.c(257): warning:  #186-D: pointless comparison of unsigned integer with zero
+              if(light_threshold < 0) light_threshold = 0;
+..\code\sound_light.c(345): warning:  #1-D: last line of file ends without a newline
+  }
+..\code\sound_light.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=27144 RO-data=2484 RW-data=168 ZI-data=3408  
+Program Size: Code=27284 RO-data=2484 RW-data=172 ZI-data=3484  
 FromELF: creating hex file...
-"Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.axf" - 0 Error(s), 3 Warning(s).
+"Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,7 +67,7 @@ Package Vendor: GigaDevice
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@5.6.0
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
