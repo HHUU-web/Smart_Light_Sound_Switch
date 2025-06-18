@@ -3,8 +3,6 @@
 
 #include "main.h"
 
-
-
 void led_duty(int led_pwm);
 void led_fun();
 void bright_adjust(void);

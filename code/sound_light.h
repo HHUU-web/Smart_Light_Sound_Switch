@@ -4,11 +4,6 @@
 #include "main.h"
 #include "oled.h"
 
-extern u8g2_t u8g2;
-extern uint8_t key;
-extern int led_on;
-extern int send_light, send_sound;
-
 #define WAVE_HISTORY 128
 
 typedef struct {
@@ -20,6 +15,7 @@ void SoundLight_Init(void);
 void Update_Waveform_Raw(uint16_t raw_input);
 void Draw_Waveform(u8g2_t *u8g2);
 void sound_to_led(void);
+void sound_up_led(void);
 void light_to_led(void);
 void adjust_sound_threshold(void);
 void adjust_light_threshold(void);

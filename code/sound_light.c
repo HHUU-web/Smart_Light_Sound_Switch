@@ -8,11 +8,12 @@
 #include <string.h> 
 #include <stdio.h>
 
-extern WaveformData sound_wave;
-extern float sound_threshold;
-extern uint32_t light_threshold;
 extern uint8_t Game_Menu_Flag;
 extern uint32_t led_last_time; 
+extern u8g2_t u8g2;
+extern uint8_t key;
+extern int led_on;
+extern int send_light, send_sound;
 
 volatile uint16_t ADC_Buffer[2];  // DMA采集缓冲区（双路：声音+光强）
 WaveformData sound_wave = {0};
@@ -91,8 +92,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     }
 }
 
-#define WAVE_HEIGHT       60     // 波形显示高度(像素)
-#define WAVE_HISTORY      128     // 波形历史点数(建议等于OLED宽度)
+#define WAVE_HEIGHT     60     // 波形显示高度(像素)
+#define WAVE_HISTORY    128     // 波形历史点数(建议等于OLED宽度)
 #define WAVE_TYPE_SOUND 0
 #define WAVE_TYPE_LIGHT 1
 
@@ -130,12 +131,12 @@ void Draw_Waveform(u8g2_t *u8g2)
 }
 
 // 根据阈值控制 LED
-void sound_to_led() 
+void sound_to_led(void) 
 {
     static uint32_t trigger_time = 0;  // 记录触发时刻
     static uint8_t led_active = 0;    // LED状态标志
-    
-    if(sound_db >= sound_threshold) 
+    uint8_t last=0;
+    if((sound_db >= sound_threshold))
     {
         // 声音超过阈值时激活LED并记录时间
         if(!led_active) 
@@ -146,6 +147,7 @@ void sound_to_led()
         }
         // 持续触发时刷新计时（可选）
         trigger_time = HAL_GetTick(); 
+
     }
     else 
     {
@@ -156,7 +158,27 @@ void sound_to_led()
             led_active = 0;
         }
     }
+
 }
+
+void sound_up_led(void)
+{
+    // 设定一个最大幅度映射（避免过亮/过暗）
+    float max_amplitude = 1000.0f;  // 根据实际最大 sound_db 调整
+    float duty;
+
+    if (sound_db > max_amplitude) sound_db = max_amplitude;
+
+    // 映射公式：声音大 → 占空比小（越亮）；声音小 → 占空比大（越暗）
+    duty = 100.0f - (sound_db / max_amplitude) * 100.0f;
+
+    // 限制范围
+    if (duty < 0) duty = 0;
+    if (duty > 100) duty = 100;
+
+    led_duty((int)duty);
+}
+
 // 根据阈值控制 LED
 void light_to_led()
 {
@@ -187,6 +209,8 @@ void light_to_led()
 }
 /* 阈值调节 */
 /* 阈值调节（直接调节模式） */
+int sound_led_mode=0;//默认为声音控制亮度
+
 void adjust_sound_threshold() 
 {  
     key=0;
@@ -204,9 +228,11 @@ void adjust_sound_threshold()
     sprintf(str, "Set:%.0f db", sound_threshold);
     u8g2_DrawStr(&u8g2, 64, 12, str);
     
-
-    printf("Sound:%.0f db\n", sound_db);//串口发送
-    // 直接按键调节（无需模式切换）
+    if(send_sound)
+    {
+        printf("Sound:%.0f db\n", sound_db);//串口发送
+    }
+    // 直接按键调节
     if(key == KEY_LEFT) 
     {
         sound_threshold += 100;
@@ -218,6 +244,23 @@ void adjust_sound_threshold()
         sound_threshold -= 100;
         if(sound_threshold < 0) sound_threshold = 0;
         key = KEY_NONE;
+    }
+    else if(key == KEY_OK)
+    {
+        sound_led_mode=!sound_led_mode;
+    }
+    if(sound_led_mode==0)
+    {
+        sound_up_led();
+        sprintf(str, "OFF");
+        u8g2_DrawStr(&u8g2,0,24,str);
+    }
+    else if(sound_led_mode==1)
+    {
+        led_duty(100);
+        sound_to_led();
+        sprintf(str, "ON");
+        u8g2_DrawStr(&u8g2,0,24,str);
     }
 
     Draw_Waveform(&u8g2);
@@ -242,9 +285,12 @@ void adjust_light_threshold()
         
         sprintf(str, "Set:%d Lx", light_threshold);
         u8g2_DrawStr(&u8g2, 64, 12, str);
-        
-        printf("Light:%d Lx\n", light_lux);//串口发送
-        // 直接按键调节（无需模式切换）
+
+        if(send_light)
+        {
+            printf("Light:%d Lx\n", light_lux);//串口发送
+        }
+        // 直接按键调节
         if(key == KEY_LEFT) 
         {
             light_threshold += 100;
@@ -264,15 +310,6 @@ void adjust_light_threshold()
     
 }
 
-// DMA传输完成回调函数
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-{
-    if(hadc->Instance == hadc1.Instance) 
-    {
-
-    }
-}
-
 void light_detect(void)
 {
     while(1)
@@ -285,6 +322,7 @@ void light_detect(void)
             Show_Menu_Config();  
             break;
         }
+
     }
 }
 
@@ -293,13 +331,14 @@ void sound_detect(void)
     while(1)
     {
         adjust_sound_threshold();
-        sound_to_led();
+
         if(Game_Menu_Flag == KEY_EXIT)
         {
             u8g2_ClearBuffer(&u8g2);
             Show_Menu_Config();  
             break;
         }
+
     }
 
 }
@@ -341,5 +380,14 @@ void mix_detect(void)
             Show_Menu_Config();  
             break;
         }
+    }
+}
+
+// DMA传输完成回调函数
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+    if(hadc->Instance == hadc1.Instance) 
+    {
+
     }
 }

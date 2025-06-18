@@ -12,6 +12,7 @@ extern u8g2_t u8g2;
 Speed_ENUM Speed_choose;
 
 extern u8g2_t u8g2;
+extern int led_on;
 extern int time; 
 char text[32];
 int16_t display=48;
@@ -120,7 +121,8 @@ void ui_left_one_Picture(int16_t* a, int b )
     }
 }
 
-void Show_Menu_Config(void) {
+void Show_Menu_Config(void) 
+{
     u8g2_SetFontMode(&u8g2, 1); // 设置字体模式
     u8g2_SetFontDirection(&u8g2, 0); // 设置字体方向
     u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr); // 设置字体格式
@@ -137,8 +139,6 @@ void Show_Menu(Speed_ENUM Speed_choose) {
     key = 0;
     key_scan();
     Game_Menu_Flag = key;
-    // sprintf(text, "%d", display);
-    // u8g2_DrawStr(&u8g2, 0, 10, text);
 
     if ((key == KEY_LEFT) && (display > -144)) {
         if (Picture_Flag < 4)
@@ -211,6 +211,7 @@ void Show_Menu(Speed_ENUM Speed_choose) {
     }
     if(Game_Menu_Flag == KEY_OK)//确认键
     {
+        Game_Menu_Flag=0;
         switch (Picture_Flag % 5)
         {
             case 0:

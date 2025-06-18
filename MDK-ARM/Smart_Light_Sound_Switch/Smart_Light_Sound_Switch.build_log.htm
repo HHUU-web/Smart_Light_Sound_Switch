@@ -30,19 +30,19 @@ Build target 'Smart_Light_Sound_Switch'
 compiling sound_light.c...
 ..\code\key.h(16): warning:  #1-D: last line of file ends without a newline
   #endif
-..\code\led.h(9): warning:  #1295-D: Deprecated declaration led_fun - give arg types
+..\code\led.h(7): warning:  #1295-D: Deprecated declaration led_fun - give arg types
   void led_fun();
 ..\code\menu.h(38): warning:  #1-D: last line of file ends without a newline
   #endif /* __MENU_H */
-..\code\sound_light.c(123): warning:  #514-D: pointless comparison of unsigned integer with a negative constant
+..\code\sound_light.c(124): warning:  #514-D: pointless comparison of unsigned integer with a negative constant
           curr_y = (curr_y < y_base - WAVE_HEIGHT) ? (y_base - WAVE_HEIGHT) : curr_y;
-..\code\sound_light.c(257): warning:  #186-D: pointless comparison of unsigned integer with zero
+..\code\sound_light.c(138): warning:  #177-D: variable "last"  was declared but never referenced
+      uint8_t last=0;
+..\code\sound_light.c(303): warning:  #186-D: pointless comparison of unsigned integer with zero
               if(light_threshold < 0) light_threshold = 0;
-..\code\sound_light.c(345): warning:  #1-D: last line of file ends without a newline
-  }
 ..\code\sound_light.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=27284 RO-data=2484 RW-data=172 ZI-data=3484  
+Program Size: Code=27604 RO-data=2484 RW-data=176 ZI-data=3480  
 FromELF: creating hex file...
 "Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.axf" - 0 Error(s), 6 Warning(s).
 
@@ -67,7 +67,7 @@ Package Vendor: GigaDevice
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@5.6.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
