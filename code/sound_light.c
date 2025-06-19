@@ -257,7 +257,6 @@ void adjust_sound_threshold()
     }
     else if(sound_led_mode==1)
     {
-        led_duty(100);
         sound_to_led();
         sprintf(str, "ON");
         u8g2_DrawStr(&u8g2,0,24,str);

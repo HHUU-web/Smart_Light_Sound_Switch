@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Smart_Light_Sound_Switch\Smart_Light_Sound_Switch.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jun 18 20:21:17 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Jun 19 11:46:18 2025
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -350,7 +350,7 @@ Global Symbols
 
 <P><STRONG><a name="[110]"></a>__aeabi_cfrcmple</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, cfrcmple.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_up_led
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
 </UL>
 
 <P><STRONG><a name="[12b]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
@@ -1035,7 +1035,7 @@ Global Symbols
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 </UL>
 
-<P><STRONG><a name="[10c]"></a>HAL_GPIO_ReadPin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f1xx_hal_gpio.o(i.HAL_GPIO_ReadPin))
+<P><STRONG><a name="[10b]"></a>HAL_GPIO_ReadPin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f1xx_hal_gpio.o(i.HAL_GPIO_ReadPin))
 <BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_scan
 </UL>
 
@@ -1057,8 +1057,8 @@ Global Symbols
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnMasterAddressFlagUntilTimeout
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnFlagUntilTimeout
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnBTFFlagUntilTimeout
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_to_led
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_to_led
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 </UL>
 
@@ -1544,7 +1544,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_Adjustment_Menu
 </UL>
 
-<P><STRONG><a name="[f1]"></a>Show_Menu</STRONG> (Thumb, 664 bytes, Stack size 48 bytes, menu.o(i.Show_Menu))
+<P><STRONG><a name="[f1]"></a>Show_Menu</STRONG> (Thumb, 662 bytes, Stack size 48 bytes, menu.o(i.Show_Menu))
 <BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = Show_Menu &rArr; Blib_adjustment_Menu &rArr; To_Blib_adjustment_Menu &rArr; u8g2_DrawStr &rArr; u8g2_draw_string &rArr; u8g2_font_decode_glyph &rArr; u8g2_DrawHVLine
 </UL>
 <BR>[Calls]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u8g2_SendBuffer
@@ -1759,7 +1759,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_detect
 </UL>
 
-<P><STRONG><a name="[107]"></a>adjust_sound_threshold</STRONG> (Thumb, 262 bytes, Stack size 16 bytes, sound_light.o(i.adjust_sound_threshold))
+<P><STRONG><a name="[107]"></a>adjust_sound_threshold</STRONG> (Thumb, 256 bytes, Stack size 16 bytes, sound_light.o(i.adjust_sound_threshold))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = adjust_sound_threshold &rArr; u8g2_DrawStr &rArr; u8g2_draw_string &rArr; u8g2_font_decode_glyph &rArr; u8g2_DrawHVLine
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fsub
@@ -1767,10 +1767,9 @@ Global Symbols
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_up_led
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Update_Waveform_Raw
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Draw_Waveform
-<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_duty
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u8g2_SetFont
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u8g2_SendBuffer
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u8g2_DrawStr
@@ -1812,7 +1811,7 @@ Global Symbols
 <P><STRONG><a name="[88]"></a>key_scan</STRONG> (Thumb, 198 bytes, Stack size 24 bytes, key.o(i.key_scan))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = key_scan
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
+<BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Show_Menu
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adjust_sound_threshold
@@ -1824,29 +1823,28 @@ Global Symbols
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Blib_adjustment_Menu
 </UL>
 
-<P><STRONG><a name="[10a]"></a>led_duty</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, led.o(i.led_duty))
+<P><STRONG><a name="[10d]"></a>led_duty</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, led.o(i.led_duty))
 <BR><BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_up_led
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_to_led
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adjust_sound_threshold
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_to_led
 </UL>
 
 <P><STRONG><a name="[f4]"></a>light_detect</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, sound_light.o(i.light_detect))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = light_detect &rArr; adjust_light_threshold &rArr; u8g2_DrawStr &rArr; u8g2_draw_string &rArr; u8g2_font_decode_glyph &rArr; u8g2_DrawHVLine
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Show_Menu_Config
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_to_led
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_to_led
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adjust_light_threshold
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u8g2_ClearBuffer
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Show_Menu
 </UL>
 
-<P><STRONG><a name="[10d]"></a>light_to_led</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, sound_light.o(i.light_to_led))
+<P><STRONG><a name="[10c]"></a>light_to_led</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, sound_light.o(i.light_to_led))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = light_to_led
 </UL>
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_duty
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_duty
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mix_detect
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_detect
@@ -1880,8 +1878,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Show_Menu_Config
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_to_led
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sound_to_led
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;light_to_led
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Update_Waveform_Raw
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Draw_Waveform
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u8g2_SetFont
@@ -1904,12 +1902,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Show_Menu
 </UL>
 
-<P><STRONG><a name="[10b]"></a>sound_to_led</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, sound_light.o(i.sound_to_led))
+<P><STRONG><a name="[10a]"></a>sound_to_led</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, sound_light.o(i.sound_to_led))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = sound_to_led
 </UL>
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfrcmple
-<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_duty
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_duty
 </UL>
 <BR>[Called By]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adjust_sound_threshold
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mix_detect
@@ -1923,7 +1921,7 @@ Global Symbols
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfrcmple
-<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_duty
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_duty
 </UL>
 <BR>[Called By]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adjust_sound_threshold
 </UL>

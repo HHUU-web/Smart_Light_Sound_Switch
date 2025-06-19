@@ -211,7 +211,7 @@ void Show_Menu(Speed_ENUM Speed_choose) {
     }
     if(Game_Menu_Flag == KEY_OK)//х╥хо╪Э
     {
-        Game_Menu_Flag=0;
+        // Game_Menu_Flag=0;
         switch (Picture_Flag % 5)
         {
             case 0:

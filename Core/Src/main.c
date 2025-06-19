@@ -137,7 +137,6 @@ int main(void)
   while (1)
   {
     Show_Menu(fast_speed);  //菜单混动函数，修改"fast_speed"可以更改移滚动速度
-    // sound_up_led();
 
 
 
