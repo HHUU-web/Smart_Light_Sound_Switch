@@ -17,8 +17,8 @@ extern int send_light, send_sound;
 
 volatile uint16_t ADC_Buffer[2];  // DMA采集缓冲区（双路：声音+光强）
 WaveformData sound_wave = {0};
-float sound_threshold = 620;
-uint32_t light_threshold = 500;
+float sound_threshold = 80;
+uint32_t light_threshold = 40;
 char str[32];
 
 
@@ -26,14 +26,15 @@ char str[32];
 #define LIGHT_FILTER_ALPHA 0.1f   // 光强滤波参数（越小越平稳）
 #define SOUND_FILTER_ALPHA 0.2f   // 声音滤波参数（越小越平稳）
 float sound_db = 0.0f;         // 声音分贝值
-uint32_t light_lux = 0;        // 光强照度值 (0-65536Lx)
+uint32_t light_lux = 0;        // 光强照度值
 uint32_t light_sum = 0;
 uint32_t voice_amp_sum = 0;
 uint8_t sample_count = 0;
 // 声强检测相关变量
 uint8_t voice_counter = 0;
 uint16_t voice_max = 0, voice_min = 4095;
-
+static float sound_db_filtered = 0;  // 声音平滑后的值
+#define SOUND_FILTER_ALPHA 0.2f
 
 // 初始化函数
 void SoundLight_Init(void) 
@@ -49,42 +50,45 @@ float adc_to_voltage(uint16_t adc_val) {
 // 定时器5ms回调函数
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    if (htim->Instance == TIM2) // 5ms定时器
+    if (htim->Instance == TIM2)
     {
         uint16_t light = ADC_Buffer[0];
         uint16_t voice = ADC_Buffer[1];
 
-        // 1. 光强转换
-        float lux = (float)(light) * 65536.0f / 4095.0f;
-        if (lux > 65536.0f) lux = 65536.0f;
+        // 1. 光强转换（0~1000 Lx）
+        light_sum += light * 1000 / 4095;
 
-        light_sum += (uint32_t)lux;
-
-        // 2. 声音处理（每25ms计算一次幅度）
+        // 2. 声音采样（25ms取幅值）
         if (voice > voice_max) voice_max = voice;
         if (voice < voice_min) voice_min = voice;
         voice_counter++;
 
-        if (voice_counter >= 5)  // 25ms 到了
+        if (voice_counter >= 5)  // 每25ms
         {
             voice_counter = 0;
-
-            uint16_t amplitude = voice_max - voice_min;
-            voice_amp_sum += amplitude;
-
+            voice_amp_sum += (voice_max - voice_min);
             voice_max = 0;
             voice_min = 4095;
-
             sample_count++;
         }
 
-        // 3. 每满100次输出一次（100 * 5ms = 500ms）
-        if (sample_count >= 70 / 5)  // 20次 * 25ms = 500ms
+        // 3. 每500ms更新一次数据
+        if (sample_count >= 15)  // 20 * 25ms = 500ms
         {
-            light_lux = light_sum / 70;          // 100次平均光强
-            sound_db = voice_amp_sum / 14;        // 20次平均声音幅度
+            light_lux = light_sum / 75;
 
-            // 重置累加
+            float amplitude = voice_amp_sum / 15.0f;
+
+            // 声音线性转换为 dB 值
+            float db_val = (amplitude - 200.0f) * 0.05f + 60.0f;
+            if (db_val < 0) db_val = 0;
+            if (db_val > 120) db_val = 120;
+
+            // 一阶低通滤波
+            sound_db_filtered = SOUND_FILTER_ALPHA * db_val + (1.0f - SOUND_FILTER_ALPHA) * sound_db_filtered;
+            sound_db = sound_db_filtered;
+
+            // 重置累计
             light_sum = 0;
             voice_amp_sum = 0;
             sample_count = 0;
@@ -109,7 +113,7 @@ void Update_Waveform_Raw(uint16_t raw_input)
 void Draw_Waveform(u8g2_t *u8g2)
 {
     const uint8_t y_base = 58;
-    uint16_t max_val = (waveform_type == WAVE_TYPE_LIGHT) ? 65535 : 4095;
+    uint16_t max_val = (waveform_type == WAVE_TYPE_LIGHT) ? 1000 : 200;
 
     u8g2_DrawHLine(u8g2, 0, y_base, WAVE_HISTORY);
 

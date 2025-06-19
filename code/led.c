@@ -38,7 +38,7 @@ void bright_adjust(void)
 			key = KEY_NONE;
 		}
 		u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr );
-		u8g2_DrawStr(&u8g2,52,10,"Blib adjustment");
+		u8g2_DrawStr(&u8g2,20,10,"Blib adjustment");
 		u8g2_DrawLine(&u8g2, 1, 13, 128, 13);
 		sprintf(led, "Brightness:%d%%", led_on);
 		u8g2_DrawStr(&u8g2,3,24,led);
@@ -75,7 +75,7 @@ void time_adjust(void)
 		}
 		led_last_time=time*1000;
 		u8g2_SetFont(&u8g2, u8g2_font_squeezed_b7_tr );
-		u8g2_DrawStr(&u8g2,52,10,"Blib adjustment");
+		u8g2_DrawStr(&u8g2,20,10,"Blib adjustment");
 		u8g2_DrawLine(&u8g2, 1, 13, 128, 13);
 		sprintf(led, "Time:%ds", time);
 		u8g2_DrawStr(&u8g2,3,36,led);
